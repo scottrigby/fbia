@@ -1,0 +1,7 @@
+name = Facebook Instant Articles API
+description = API module for Facebook Instant Articles.
+package = Facebook Instant Articles
+core = 7.x
+; Facebook SDK requires this version of PHP.
+php = 5.4
+dependencies[] = composer_manager
