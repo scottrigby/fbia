@@ -2,20 +2,6 @@
   "name": "drupal/fbia",
   "description": "API module for Facebook Instant Articles.",
   "license": "GPL-2.0",
-  "authors": [
-    {
-      "name": "Scott Rigby",
-      "email": "Scott.Rigby@nbcuni.com"
-    },
-    {
-      "name": "Anbarasan Rajendran",
-      "email": "Anbarasan.Rajendran@nbcuni.com"
-    },
-    {
-      "name": "Simon Engelhardt",
-      "email": "simonengelhardt@fb.com"
-    }
-  ],
   "require": {
     "facebook/php-sdk-v4": "5.1.2",
     "facebook/facebook-instant-articles-sdk-php": "v0.1.0"
@@ -24,11 +10,5 @@
     "psr-4": {
       "Drupal\\fbia\\": "src/"
     }
-  },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/facebook/facebook-php-sdk-v4.git"
-    }
-  ]
+  }
 }
