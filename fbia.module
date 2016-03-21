@@ -4,3 +4,69 @@
  * @file
  * API module for Facebook Instant Articles.
  */
+
+/**
+ * Constructs a Facebook InstantArticles Client object.
+ *
+ * Note we use the static app access token option, rather than a generated one.
+ * See the static app access token note at the bottom of
+ * @link https://developers.facebook.com/docs/facebook-login/access-tokens#apptokens @endlink
+ *
+ * @return \Facebook\InstantArticles\Client\Client
+ */
+function fbia_construct_client() {
+  $client = &drupal_static(__FUNCTION__);
+
+  if (!isset($client)) {
+    $app_id = variable_get('fbia_app_id');
+    $app_secret = variable_get('fbia_app_secret');
+    $config = array(
+      'app_id' => $app_id,
+      'app_secret' => $app_secret,
+      'default_access_token' => $app_id . '|' . $app_secret,
+    );
+    $facebook = new \Facebook\Facebook($config);
+    $page_id = variable_get('fbia_page_id');
+    $development_mode = 'development' == variable_get('fbia_environment', 'development');
+
+    $client = new \Facebook\InstantArticles\Client\Client($facebook, $page_id, $development_mode);
+  }
+
+  return $client;
+}
+
+/**
+ * Creates or updates an Instant Article in your Instant Articles library.
+ *
+ * @param string $source
+ *   The article source HTML. This must have parity with the canonical article
+ *   on your website.
+ * @param bool $takeLive
+ *   Optional. Take live param is ignored if the article is posted in
+ *   development mode, because articles in the development library can never be
+ *   taken live. Otherwise, if in the Production library, this specifies if the
+ *   Instant Articles are visible to the public.
+ */
+function fbia_import_article($source, $takeLive = FALSE) {
+  // Format the source HTML.
+  $formatters = module_invoke_all('fbia_formatters');
+  foreach ($formatters as $class_name) {
+    if (in_array('Drupal\FacebookInstantArticlesFormatterInterface', class_implements($class_name))) {
+      $class_name::format($source);
+    }
+  }
+
+  $client = fbia_construct_client();
+  $client->importArticle($source, $takeLive);
+}
+
+/**
+ * Removes an article from your Instant Articles library.
+ *
+ * @param string $url
+ *   The canonical URL of the article.
+ */
+function fbia_remove_article($url) {
+  $client = fbia_construct_client();
+  $client->removeArticle($url);
+}
