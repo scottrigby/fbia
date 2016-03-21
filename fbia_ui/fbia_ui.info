@@ -1,0 +1,5 @@
+name = Facebook Instant Articles UI
+description = UI module for Facebook Instant Articles.
+package = Facebook Instant Articles
+core = 7.x
+dependencies[] = fbia

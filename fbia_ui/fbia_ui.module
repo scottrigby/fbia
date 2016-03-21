@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * UI module for Facebook Instant Articles.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function fbia_ui_menu() {
+  $items = array();
+
+  $items['admin/config/services/fbia'] = array(
+    'title' => 'Facebook Instant Articles',
+    'description' => 'Configure Facebook Instant Articles settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('fbia_ui_settings'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'fbia_ui.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_init().
+ */
+function fbia_ui_init() {
+  fbia_dev_claim_url();
+}
+
+/**
+ * Add FB Pages metatag to HEAD tag of the HTML page.
+ *
+ * The metatag should output like this:
+ * @code
+ * <meta property="fb:pages" content="FB_PAGE_ID" />
+ * @endcode
+ */
+function fbia_dev_claim_url() {
+  if ($page_id = variable_get('fbia_page_id')) {
+    $data = array(
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'property' => 'fb:pages',
+        'content' => $page_id,
+      ),
+    );
+
+    drupal_add_html_head($data, 'fbia_page_id');
+  }
+}
