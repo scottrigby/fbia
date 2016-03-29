@@ -1,0 +1,6 @@
+<?php
+
+/**
+ * @file
+ * Provide Drupal rules to manage facebook instant article using API.
+ */
