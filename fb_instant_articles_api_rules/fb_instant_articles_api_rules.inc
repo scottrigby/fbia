@@ -8,7 +8,7 @@
 /**
  * Implements hook_rules_action_info() on behalf of the Facebook Instant Articles API module.
  */
-function fb_instant_articles_api_rules_action_info() {
+function fb_instant_articles_api_rules_rules_action_info() {
   $defaults = array(
     'parameter' => array(
       'entity' => array(
@@ -28,11 +28,11 @@ function fb_instant_articles_api_rules_action_info() {
     'base' => 'rules_action_fb_instant_articles_update',
   );
   $actions['fb_instant_articles_read'] = $defaults + array(
-    'label' => t('Update facebook instant article'),
+    'label' => t('Read facebook instant article'),
     'base' => 'rules_action_fb_instant_articles_read',
   );
   $actions['fb_instant_articles_delete'] = $defaults + array(
-    'label' => t('Update facebook instant article'),
+    'label' => t('Delete facebook instant article'),
     'base' => 'rules_action_fb_instant_articles_update',
   );
   return $actions;
@@ -47,6 +47,8 @@ function fb_instant_articles_api_rules_integration_access($type, $name) {
 
 /**
  * Action: Add facebook instant article.
+ *
+ * @param object $entity
  */
 function rules_action_fb_instant_articles_create($entity) {
   fbia_import_article($entity);
@@ -54,6 +56,8 @@ function rules_action_fb_instant_articles_create($entity) {
 
 /**
  * Action: Update facebook instant article.
+ *
+ * @param object $entity
  */
 function rules_action_fb_instant_articles_update($entity) {
   //update call().
@@ -61,6 +65,8 @@ function rules_action_fb_instant_articles_update($entity) {
 
 /**
  * Action: Read facebook instant article.
+ *
+ * @param object $entity
  */
 function rules_action_fb_instant_articles_read($entity) {
   //read call().
@@ -68,6 +74,8 @@ function rules_action_fb_instant_articles_read($entity) {
 
 /**
  * Action: Delete facebook instant article.
+ *
+ * @param object $entity
  */
 function rules_action_fb_instant_articles_delete($entity) {
   fbia_remove_article($entity);
