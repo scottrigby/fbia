@@ -51,7 +51,9 @@ function fb_instant_articles_api_rules_integration_access($type, $name) {
  * @param object $entity
  */
 function rules_action_fb_instant_articles_create($entity) {
-  fbia_import_article($entity);
+  if (isset($entity->entity_id)) {
+    fbia_import_article($entity);
+  }
 }
 
 /**
@@ -60,7 +62,9 @@ function rules_action_fb_instant_articles_create($entity) {
  * @param object $entity
  */
 function rules_action_fb_instant_articles_update($entity) {
-  //update call().
+  if (isset($entity->entity_id)) {
+    fbia_import_article($entity);
+  }
 }
 
 /**
@@ -78,5 +82,8 @@ function rules_action_fb_instant_articles_read($entity) {
  * @param object $entity
  */
 function rules_action_fb_instant_articles_delete($entity) {
-  fbia_remove_article($entity);
+  if (isset($entity->id)) {
+    $url = url(drupal_get_path_alias($entity->entity_type . "/" . $entity->entity_id), array('absolute' => TRUE));
+    fbia_remove_article($url);
+  }
 }

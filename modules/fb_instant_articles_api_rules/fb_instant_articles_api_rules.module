@@ -58,7 +58,9 @@ function facebook_instant_articles_view_action($node, $context) {
  *
  */
 function facebook_instant_articles_insert_action($node, $context) {
-  fbia_import_article($node);
+  if (isset($node->nid)) {
+    fbia_import_article($node);
+  }
 }
 
 /**
@@ -66,7 +68,9 @@ function facebook_instant_articles_insert_action($node, $context) {
  *
  */
 function facebook_instant_articles_update_action($node, $context) {
-  fbia_import_article($node);
+  if (isset($node->nid)) {
+    fbia_import_article($node);
+  }
 }
 
 /**
@@ -74,6 +78,8 @@ function facebook_instant_articles_update_action($node, $context) {
  *
  */
 function facebook_instant_articles_delete_action($node, $context) {
-  $url = url(drupal_get_path_alias("node/" . $node->nid), array('absolute' => TRUE));
-  fbia_remove_article($url);
+  if (isset($node->nid)) {
+    $url = url(drupal_get_path_alias("node/" . $node->nid), array('absolute' => TRUE));
+    fbia_remove_article($url);
+  }
 }
